@@ -1,4 +1,4 @@
-import Note from './components/Note'
+import Course from './components/course_component'
 
 const App = () => {
     const course = {
