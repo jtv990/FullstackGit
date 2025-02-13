@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PhoneBookComponents from './components/puhelinluettelo_components'
 
 const App = () => {
     const [persons, setPersons] = useState([
@@ -44,33 +45,22 @@ const App = () => {
         )
     }
     
-    
-
     return (
         <div>
             <h2>Phonebook</h2>
-            <div>
-                filter shown with <input value={filter} onChange={handleFilterChange} />
+            <PhoneBookComponents.Filter filter={filter} handleFilterChange={handleFilterChange} />
+
+            <h3>Add a new</h3>
+            <PhoneBookComponents.Person
+                newName={newName}
+                newNumber={newNumber}
+                handleNameChange={handleNameChange}
+                handleNumberChange={handeNumberChange}
+                addPerson={addPerson}
+            />
+            <h3>Numbers</h3>
+            <PhoneBookComponents.Persons showPersons={showPersons} />
             </div>
-            <div>debug: {filter}</div>
-            <form onSubmit={addPerson}>
-                <div>
-                <h3>Add a new</h3>
-                    name: <input value={newName} onChange={handleNameChange} />
-                </div>
-                <div>
-                    number: <input value={newNumber} onChange={handeNumberChange} />
-                </div>
-                <div>
-                    <button type="submit">add</button>
-                </div>
-                <div>debug: {newName}</div>
-            </form>
-            <h2>Numbers</h2>
-            {showPersons.map(person =>
-                <p key={person.name}>{person.name} {person.number}</p>
-            )}
-        </div>
     )
 }
 
