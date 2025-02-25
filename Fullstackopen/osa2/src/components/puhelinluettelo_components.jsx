@@ -7,7 +7,7 @@ const Filter = ({ filter, handleFilterChange }) => (
 )
 
 const Person = ({ newName, newNumber, handleNameChange, handleNumberChange, addPerson }) => (
-    <form onSumbit={addPerson}>
+    <form onSubmit={addPerson}>
         <div>
             name: <input value={newName} onChange={handleNameChange} />
         </div>
