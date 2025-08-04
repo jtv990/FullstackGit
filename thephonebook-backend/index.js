@@ -5,7 +5,6 @@ const path = require('path')
 const morgan = require('morgan')
 
 const cors = require('cors')
-const { request } = require('http')
 
 app.use(express.json())
 morgan.token('body', (request) => {
@@ -98,7 +97,7 @@ app.get('*', (request, response) => {
   response.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
