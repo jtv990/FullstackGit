@@ -93,7 +93,7 @@ app.post('/api/persons', (request, response) => {
   response.json(person)
 })
 
-app.get('*', (request, response) => {
+app.get('/*', (request, response) => {
   response.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
 })
 
