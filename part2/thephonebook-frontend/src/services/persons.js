@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseURL = 'https://thephonebook-backend.onrender.com/api/persons'
+const baseURL = 'https://fullstackgit-rendertesti-5050.onrender.com'
 
 const getAll = () => {
     return axios.get(baseURL).then(response => response.data)
