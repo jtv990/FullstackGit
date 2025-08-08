@@ -43,7 +43,7 @@ const Persons = ({ persons, handleDelete }) => (
     {persons.map(person => (
       <li key={person.id}>
         {person.name} {person.number}
-        <button onClick={() => handleDelete(person.id, person.name)}>delete</button>
+        <button onClick={() => handleDelete(person.id || person._id, person.name)}>delete</button>
       </li>
     ))}
   </ul>
@@ -61,7 +61,11 @@ const App = () => {
     personService
       .getAll()
       .then(initialPersons => {
-        setPersons(initialPersons)
+        const normalized = initialPersons.map(p => ({
+          ...p,
+          id: p.id || p._id
+        }))
+        setPersons(normalized)
       })
   }, [])
 
