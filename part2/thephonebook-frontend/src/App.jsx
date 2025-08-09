@@ -127,6 +127,11 @@ const handleSubmit = (event) => {
       setNewName('')
       setNewNumber('')
     })
+    .catch(error => {
+      setMessage(error.response?.data?.error || 'An unexpected error occured')
+      setMessageType('error')
+      setTimeout(() => setMessage(null), 5000)
+    })
 }
 
   const handleDelete = (id, name) => {
