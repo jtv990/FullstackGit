@@ -1,4 +1,4 @@
-const errorHandler = (error, request, response, next) => {
+const errorHandler = (error, request, response) => {
   console.error(error.name, error.message)
 
   if (error.name === 'CastError') {
@@ -7,8 +7,8 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: error.message })
   }
 
-  return response.status(500).json({ error: 'Internal server error '})
-  
+  return response.status(500).json({ error: 'Internal server error ' })
+
 }
 
 module.exports = { errorHandler }

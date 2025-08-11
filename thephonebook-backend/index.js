@@ -14,10 +14,10 @@ const mongoUrl = process.env.MONGODB_URI
 
 const middleware = require('./utilities/middleware')
 
-mongoose.set("strictQuery", false)
+mongoose.set('strictQuery', false)
 mongoose.connect(mongoUrl)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch(error => console.error("MongoDB connection error:", error.message))
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(error => console.error('MongoDB connection error:', error.message))
 
 morgan.token('body', (request) => {
   return request.method === 'POST' ? JSON.stringify(request.body) : ''
@@ -43,20 +43,24 @@ app.get('/info', (request, response) => {
 
 })
 
-app.get('/api/persons/:id', (request, response, next) => {
+app.get('/api/persons/:id', (request, response) => {
   Person.findById(request.params.id)
-  .then(person => {
-    if (person) response.json(person)
-    else response.status(404).end()
-  })
-  .catch(error => next(error))
-    
+    .then(person => {
+      if (person) response.json(person)
+      else response.status(404).end()
+    })
+    .catch(() => {
+      response.status(400).json({ error: 'malformatted id' })
+    })
+
 })
 
-app.delete('/api/persons/:id', (request, response, next) => {
+app.delete('/api/persons/:id', (request, response) => {
   Person.findByIdAndDelete(request.params.id)
-  .then(() => response.status(204).end())
-  .catch(error => next(error))
+    .then(() => response.status(204).end())
+    .catch(() => {
+      response.status(400).json({ error: 'malformatted id' })
+    })
 })
 
 
@@ -86,7 +90,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     number: body.number
   }
 
-  Person.findByIdAndUpdate(request.params.id, person, {new: true, runValidators: true, context: "query" })
+  Person.findByIdAndUpdate(request.params.id, person, { new: true, runValidators: true, context: 'query' })
     .then(updatedPerson => {
       if (updatedPerson){
         response.json(updatedPerson)
@@ -105,5 +109,5 @@ app.use(middleware.errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })
