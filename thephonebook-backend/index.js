@@ -43,24 +43,20 @@ app.get('/info', (request, response) => {
 
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
     .then(person => {
       if (person) response.json(person)
       else response.status(404).end()
     })
-    .catch(() => {
-      response.status(400).json({ error: 'malformatted id' })
-    })
+    .catch(error => next(error))
 
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
     .then(() => response.status(204).end())
-    .catch(() => {
-      response.status(400).json({ error: 'malformatted id' })
-    })
+    .catch(error => next(error))
 })
 
 
