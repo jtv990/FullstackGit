@@ -13,3 +13,4 @@ const errorHandler = (error, request, response, next) => {
 
 module.exports = { errorHandler }
 
+// Lint gives an error for "next" but everything works as required for exercise 3.22
