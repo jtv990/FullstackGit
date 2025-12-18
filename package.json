@@ -3,6 +3,7 @@
     "mongoose": "^8.17.0"
   },
   "devDependencies": {
-    "supertest": "^7.1.4"
+    "supertest": "^7.1.4",
+    "vite": "^7.3.0"
   }
 }
