@@ -16,14 +16,19 @@
       "id": "4"
     },
     {
-      "id": "e26a",
-      "name": "Juha Tauriainen",
-      "number": "111"
+      "id": "2c5a",
+      "name": "Pekka P",
+      "number": "123-1234"
     },
     {
-      "id": "1b64",
-      "name": "Juha Juhalainen",
-      "number": "123345"
+      "id": "d0f0",
+      "name": "Mikko M",
+      "number": "123-1234"
+    },
+    {
+      "id": "3021",
+      "name": "Arto Hellas",
+      "number": "040-123456"
     }
   ]
 }
