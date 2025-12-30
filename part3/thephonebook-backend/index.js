@@ -1,5 +1,5 @@
 require('dotenv').config()
-const Person = require('./models/person')
+const Person = require('./models/person') // Import module
 const express = require('express')
 const app = express()
 
@@ -24,9 +24,9 @@ morgan.token('body', (request) => {
 })
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(express.static('dist'))
 app.use(express.json())
 app.use(cors())
-app.use(express.static('dist'))
 
 app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
@@ -43,7 +43,7 @@ app.get('/info', (request, response) => {
 
 })
 
-app.get('/api/persons/:id', (request, response, next) => {
+app.get('/api/persons/:id', (request, response, next) => {  // with "next" goes to errorhandler middleware
   Person.findById(request.params.id)
     .then(person => {
       if (person) response.json(person)
@@ -68,13 +68,26 @@ app.post('/api/persons', (request, response, next) => {
     return response.status(400).json({ error: 'name or number missing' })
   }
 
-  const person = new Person({
-    name: body.name,
-    number: body.number,
-  })
+  // let's check if there's duplicate body
 
-  person.save()
-    .then(savedPerson => response.json(savedPerson))
+  Person.findOne({name:body.name})
+    .then(existingPerson => {
+      if (existingPerson) {
+        existingPerson.number = body.number
+        existingPerson.save().then(updatedPerson => response.json(updatedPerson))
+        .catch(error => next(error))
+      } else{
+    
+        const person = new Person({
+        name: body.name,
+        number: body.number,
+        })
+
+      person.save()
+        .then(savedPerson => response.json(savedPerson))
+        .catch(error => next(error))
+    }
+    })
     .catch(error => next(error))
 })
 

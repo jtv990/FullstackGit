@@ -17,7 +17,7 @@ const personSchema = new mongoose.Schema({
   number: String,
 })
 
-const Person = mongoose.model('Person', personSchema)
+const Person = mongoose.model('Person', personSchema) // cmdline testing, manual addition?
 
 if (process.argv.length === 5) {
   const name = process.argv[3]
