@@ -1,8 +1,12 @@
 {
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "mongodb": "^7.0.0",
     "mongoose": "^8.17.0"
   },
   "devDependencies": {
+    "eslint": "^9.39.2",
     "supertest": "^7.1.4",
     "vite": "^7.3.0"
   }
