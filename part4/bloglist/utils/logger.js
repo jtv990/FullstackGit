@@ -1,3 +1,5 @@
+// prints info and error logs
+
 const info = (...params) => {
     console.log(...params)
 }

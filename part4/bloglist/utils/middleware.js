@@ -1,3 +1,8 @@
+// request logging
+// error handling
+// unknown endpoint handling
+
+
 const logger = require('./logger')
 
 const requestLogger = (request, response, next) => {

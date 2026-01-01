@@ -1,3 +1,9 @@
+// reads .env
+// exports conf values
+
+// handles configuration
+
+
 require('dotenv').config()
 
 const PORT = process.env.PORT

@@ -1,3 +1,11 @@
+// defines routes(GET, POST etc.)
+// request data
+// calls the model
+// sends responses
+
+// translates HTTP requests into actions
+
+
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 
@@ -11,7 +19,7 @@ blogsRouter.post('/', async (request, response, next) => {
     const blog = new Blog(request.body)
 
     const savedBlog = await blog.save()
-    response.status(201).json(savedBlog.toJSON)
+    response.status(201).json(savedBlog.toJSON())
   } catch (error) {
     next(error)
   }

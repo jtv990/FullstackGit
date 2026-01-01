@@ -1,3 +1,9 @@
+// build the Express application -> request through middleware ->
+// controllers handle routes -> models talk to the database -> utils supports ->
+// exports the app
+
+// puts everything together
+
 const express = require('express')
 const mongoose = require('mongoose')
 const config = require('./utils/config')

@@ -1,3 +1,7 @@
+// defines mongodb schema
+// how data is stored
+// database operations
+
 const mongoose = require('mongoose')
 
 const blogSchema = new mongoose.Schema({
