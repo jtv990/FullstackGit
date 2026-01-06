@@ -2,7 +2,7 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Blog example",
+  "title": "EXAMPLE 2222 test for 4.17",
   "author": "Author Name example",
   "url": "https://example.com/blog-post"
 }

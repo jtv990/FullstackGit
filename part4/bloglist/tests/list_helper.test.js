@@ -70,6 +70,7 @@ test('dummy returns one', () => {
   const blogs = []
 
   const result = listHelper.dummy(blogs)
+  console.log("Dummy test 1", result)
   assert.strictEqual(result, 1)
 })
 
@@ -77,11 +78,13 @@ describe('total likes', () => {
     
     test('when list has only one blog, equals the likes of that', () => {
         const result = listHelper.totalLikes(listWithOneBlog)
+        console.log("Total likes: ", result)
         assert.strictEqual(result, 5)
     })
 
     test('list of many blogs', () => {
     const result = listHelper.totalLikes(blogs)
+    console.log("many blogs likes: ", result)
     assert.strictEqual(result, 36)
     })
 })
@@ -89,12 +92,14 @@ describe('total likes', () => {
 describe('favorite blog', () => {
     test('when list has only one blog, returns that blog', () => {
     const result = listHelper.favoriteBlog(listWithOneBlog)
+    console.log("Only one blog: ", result.author, result.title)
     assert.deepStrictEqual(result, listWithOneBlog[0])          
 
     })
 
     test('favorite blog of the list of many blogs', () => {
     const result = listHelper.favoriteBlog(blogs)
+    console.log("The favorite of them all: ", result.author, result.title)
     assert.deepStrictEqual(result, blogs[2])
   })
 })

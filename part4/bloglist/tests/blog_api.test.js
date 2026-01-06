@@ -2,21 +2,37 @@ const { test, beforeEach, after } = require('node:test')
 const assert = require('node:assert')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
+const bcrypt = require('bcrypt')
+
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/users')
 const helper = require('./test_helper')
 
 const api = supertest(app)
 
-beforeEach(async() => {
-    await Blog.deleteMany({})
-    await Blog.insertMany(helper.initialBlogs)
-})
+let testUser
 
+beforeEach(async () => {
+  await Blog.deleteMany({})
+    
+  await Blog.insertMany(helper.initialBlogs)
+  await User.deleteMany({})
+
+  const passwordHash = await bcrypt.hash('sekret', 10)
+  const testUser = new User({
+    username: 'testiuser',
+    name: 'Test User',
+    passwordHash
+  })
+  await testUser.save()
+})
 test('blogs return as json', async () => {
     const response = await api
-    .get('/api/blogs')
-    .expect(200)
+        .get('/api/blogs')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
     assert.strictEqual(response.body.length, helper.initialBlogs.length)
 })
 
@@ -30,16 +46,36 @@ test('is named id', async () => {
     })
 })
 
+test('if there are no likes', async () => {
+    const token = await helper.getTokenForTest()
+    const newBlog = {
+        title: 'no likes',
+        author: 'Author',
+        url: 'https://something.com'
+    }
+
+    const response = await api
+    .post('/api/blogs')
+    .set('Authorization', `This ${token}`)
+    .send(newBlog)
+    .expect(201)
+
+    assert.strictEqual(response.body.likes, 0)  
+    }
+)
+
 test('blog can be added', async() => {
+    const token = await helper.getTokenForTest(testUser)
     const newBlog = {
         title: 'Test blog',
         author: 'Author',
-        url: 'http://somethingsomething.com/test',
+        url: 'http://something.com/test',
         likes: 10
     }
 
     await api
     .post('/api/blogs')
+    .set('Authorization', `This ${token}`)
     .send(newBlog)
     .expect(201)
 
@@ -74,6 +110,42 @@ test('status 200 for updating likes', async () => {
     .expect(200)
 
   assert.strictEqual(result.body.likes, blogToUpdate.likes + 1)
+})
+
+test('creating a blog fails without token', async () => {
+  const newBlog = {
+    title: 'Blog without token',
+    author: 'Tester',
+    url: 'http://example.com/no-token',
+    likes: 5
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(401) // should fail
+    .expect('Content-Type', /application\/json/)
+})
+
+test('creating a blog succeeds with valid token', async () => {
+  const token = await helper.getTokenForTest(testUser)
+
+  const newBlog = {
+    title: 'Blog with token',
+    author: 'Tester',
+    url: 'http://example.com/with-token',
+    likes: 5
+  }
+
+  const response = await api
+    .post('/api/blogs')
+    .set('Authorization', `This ${token}`)
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(response.body.title, newBlog.title)
+  assert.ok(response.body.user)
 })
 
 
